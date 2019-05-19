@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+   <title>Fitts's Law Experiment</title>
+   <script src="https://hci-fitts-law-1.firebaseapp.com/processing-1.4.7.min.js"></script>
+   <style>
+   .center-container{
+       text-align: center;
+       width: 100%;
+   }
+
+   #myInstance{
+       display: inline;
+   }
+
+   .pseudoButton {
+        appearance: button;
+        -moz-appearance: button;
+        -webkit-appearance: button;
+        text-decoration: none; 
+        font: menu; 
+        color: ButtonText;
+        display: inline-block; 
+        padding: 2px 8px;
+    }
+
+   </style>
+ </head>
+ <body>
+    <div class="center-container">
+        <canvas id="myInstance" data-processing-sources="hello-web.pde"></canvas>
+    </div>
+    <div class="center-container">
+        <a href='#' class="pseudoButton" onclick='downloadCSV({ filename: "stock-data.csv" });'>Export results</a>
+    </div>
+    <br>
+    <div class="center-container">
+        <a href='#' class="pseudoButton" onclick='displayData();'>Display results</a>
+    </div>
+    <p id="results"></p>
+    <p id="results2"></p>
+    <p id="results3"></p>
+    <script type="application/javascript">
+        function downloadCSV(args) {
+            processingInstance = Processing.getInstanceById('myInstance');
+            var data = processingInstance.getTimes();
+            var sizes = processingInstance.getTargetBoxSizes();
+            var distances = processingInstance.getDistances();
+
+            var csvRows = [];
+            for(var i=0; i<data.length; ++i){
+                csvRows.push(data[i] + "," + sizes[i]["originalWidth"] + "," + distances[i]);
+            }
+
+            var csvString = csvRows.join("%0A");
+            var a = document.createElement('a');
+            a.href = 'data:attachment/csv,' + csvString;
+            a.target = '_blank';
+            a.download = 'export.csv';
+            document.body.appendChild(a);
+            a.click();
+        }
+
+        function displayData(){
+            processingInstance = Processing.getInstanceById('myInstance');
+            var data = processingInstance.getTimes();
+            var sizes = processingInstance.getTargetBoxSizes();
+            var distances = processingInstance.getDistances();
+            var sizesWidth = [];
+            for (var i=0; i<sizes.length; i++){
+                sizesWidth.push(sizes[i]["originalWidth"])
+            }
+            document.getElementById("results").innerText = data;
+            document.getElementById("results2").innerText = sizesWidth;
+            document.getElementById("results3").innerText = distances;
+        }
+    </script>
+ </body>
+ </html>
