@@ -1,1 +1,0 @@
-Der Code für die Bewegung und die "collision detection" is zum Großteil von StackOverflow und ähnlichen Seiten übernommen. Wenn es notwendig ist kann die Quelle nochmal gesucht werden. Wegen Plagiat und so ;)
